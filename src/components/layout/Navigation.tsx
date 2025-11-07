@@ -100,11 +100,22 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated = false, userTy
           <div className="hidden md:flex items-center space-x-3">
             {isAuthenticated ? (
               <>
-                <Button variant="ghost" size="sm">
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </Button>
-                <Button variant="outline" size="sm">
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm">
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    // In a real app, this would clear auth tokens and redirect
+                    if (window.confirm('Are you sure you want to logout?')) {
+                      window.location.href = '/login'
+                    }
+                  }}
+                >
                   <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </Button>
@@ -181,11 +192,23 @@ const Navigation: React.FC<NavigationProps> = ({ isAuthenticated = false, userTy
               <div className="pt-4 mt-4 border-t space-y-2">
                 {isAuthenticated ? (
                   <>
-                    <Button variant="ghost" size="md" fullWidth>
-                      <User className="w-5 h-5 mr-2" />
-                      Profile
-                    </Button>
-                    <Button variant="outline" size="md" fullWidth>
+                    <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="ghost" size="md" fullWidth>
+                        <User className="w-5 h-5 mr-2" />
+                        Profile
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      size="md"
+                      fullWidth
+                      onClick={() => {
+                        setMobileMenuOpen(false)
+                        if (window.confirm('Are you sure you want to logout?')) {
+                          window.location.href = '/login'
+                        }
+                      }}
+                    >
                       <LogOut className="w-5 h-5 mr-2" />
                       Logout
                     </Button>

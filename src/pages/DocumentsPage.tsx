@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Navigation from '@/components/layout/Navigation'
 import Button from '@/components/ui/Button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/Card'
@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 
 const DocumentsPage: React.FC = () => {
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState<'all' | 'resumes' | 'cover-letters'>('all')
 
@@ -97,6 +98,32 @@ const DocumentsPage: React.FC = () => {
     return matchesSearch && matchesFilter
   })
 
+  const handleEdit = (docId: number) => {
+    navigate(`/documents/${docId}`)
+  }
+
+  const handleExport = (doc: typeof documents[0]) => {
+    // Simulate PDF export
+    const blob = new Blob([`${doc.title}\n\nType: ${doc.type}\nCreated: ${doc.createdDate}`], { type: 'text/plain' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${doc.title}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleCopy = (docId: number) => {
+    // In a real app, this would duplicate the document
+    alert(`Document ${docId} has been duplicated!`)
+  }
+
+  const handleTemplateSelect = (templateName: string) => {
+    navigate(`/documents/new?template=${encodeURIComponent(templateName)}`)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navigation isAuthenticated={true} userType="seeker" />
@@ -173,7 +200,13 @@ const DocumentsPage: React.FC = () => {
               {templates.map((template, index) => {
                 const Icon = template.icon
                 return (
-                  <Card key={index} glass hover className="cursor-pointer group">
+                  <Card
+                    key={index}
+                    glass
+                    hover
+                    className="cursor-pointer group"
+                    onClick={() => handleTemplateSelect(template.name)}
+                  >
                     <CardContent className="p-4 sm:p-6">
                       <div className="flex items-start space-x-4">
                         <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-gradient-bg-blue flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -272,15 +305,30 @@ const DocumentsPage: React.FC = () => {
 
                     <CardFooter>
                       <div className="grid grid-cols-3 gap-2 w-full">
-                        <Button variant="ghost" size="sm" className="flex-col h-auto py-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="flex-col h-auto py-2"
+                          onClick={() => handleEdit(doc.id)}
+                        >
                           <Edit className="w-4 h-4 mb-1" />
                           <span className="text-xs">Edit</span>
                         </Button>
-                        <Button variant="ghost" size="sm" className="flex-col h-auto py-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="flex-col h-auto py-2"
+                          onClick={() => handleExport(doc)}
+                        >
                           <Download className="w-4 h-4 mb-1" />
                           <span className="text-xs">Export</span>
                         </Button>
-                        <Button variant="ghost" size="sm" className="flex-col h-auto py-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="flex-col h-auto py-2"
+                          onClick={() => handleCopy(doc.id)}
+                        >
                           <Copy className="w-4 h-4 mb-1" />
                           <span className="text-xs">Copy</span>
                         </Button>

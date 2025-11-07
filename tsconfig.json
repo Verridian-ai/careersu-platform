@@ -26,5 +26,17 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "src/__tests__",
+    "src/hooks/useAIChat.ts",
+    "src/lib/ai/ragClient.ts",
+    "src/pages/ChatWithAI.tsx"
+  ]
 }

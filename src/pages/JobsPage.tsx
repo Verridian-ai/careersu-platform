@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navigation from '@/components/layout/Navigation'
 import Button from '@/components/ui/Button'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/Card'
@@ -16,9 +17,11 @@ import {
 } from 'lucide-react'
 
 const JobsPage: React.FC = () => {
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const [locationQuery, setLocationQuery] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  const [savedJobs, setSavedJobs] = useState<Set<number>>(new Set([1, 3, 6]))
 
   const jobs = [
     {
@@ -107,7 +110,25 @@ const JobsPage: React.FC = () => {
     },
   ]
 
-  // const jobTypes = ['All', 'Full-time', 'Part-time', 'Contract', 'Remote']
+  const handleBookmark = (jobId: number) => {
+    setSavedJobs(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(jobId)) {
+        newSet.delete(jobId)
+      } else {
+        newSet.add(jobId)
+      }
+      return newSet
+    })
+  }
+
+  const handleApply = (jobId: number) => {
+    navigate(`/jobs/${jobId}`)
+  }
+
+  const handleViewDetails = (jobId: number) => {
+    navigate(`/jobs/${jobId}`)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -234,7 +255,7 @@ const JobsPage: React.FC = () => {
             <Card glass>
               <CardContent className="p-4 sm:p-6 text-center">
                 <h3 className="text-responsive-2xl font-bold text-foreground">
-                  {jobs.filter((j) => j.saved).length}
+                  {savedJobs.size}
                 </h3>
                 <p className="text-responsive-sm text-muted-foreground">Saved Jobs</p>
               </CardContent>
@@ -268,10 +289,13 @@ const JobsPage: React.FC = () => {
                           <div className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs sm:text-sm font-semibold whitespace-nowrap">
                             {job.match}% Match
                           </div>
-                          <button className="p-2 hover:bg-accent rounded-lg transition-colors touch-target">
+                          <button
+                            onClick={() => handleBookmark(job.id)}
+                            className="p-2 hover:bg-accent rounded-lg transition-colors touch-target"
+                          >
                             <Bookmark
                               className={`w-5 h-5 ${
-                                job.saved
+                                savedJobs.has(job.id)
                                   ? 'fill-primary text-primary'
                                   : 'text-muted-foreground'
                               }`}
@@ -324,10 +348,19 @@ const JobsPage: React.FC = () => {
 
                 <CardFooter>
                   <div className="flex flex-col sm:flex-row gap-3 w-full">
-                    <Button size="md" className="flex-1">
+                    <Button
+                      size="md"
+                      className="flex-1"
+                      onClick={() => handleApply(job.id)}
+                    >
                       Apply Now
                     </Button>
-                    <Button variant="outline" size="md" className="flex-1">
+                    <Button
+                      variant="outline"
+                      size="md"
+                      className="flex-1"
+                      onClick={() => handleViewDetails(job.id)}
+                    >
                       View Details
                     </Button>
                   </div>
