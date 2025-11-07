@@ -4,7 +4,7 @@ import Navigation from '@/components/layout/Navigation'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/Card'
-import { LogIn, Mail, Lock, Eye, EyeOff, UserCheck, Briefcase } from 'lucide-react'
+import { LogIn, Mail, Lock, Eye, EyeOff, UserCheck, Briefcase, ArrowRight, CheckCircle } from 'lucide-react'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
@@ -55,7 +55,6 @@ const LoginPage: React.FC = () => {
     e.preventDefault()
     if (validateForm()) {
       // Simulate login - in real app, this would call an API
-      console.log('Login attempt:', formData)
       navigate('/dashboard')
     }
   }
@@ -277,8 +276,5 @@ const LoginPage: React.FC = () => {
     </div>
   )
 }
-
-// Missing imports
-import { ArrowRight, CheckCircle } from 'lucide-react'
 
 export default LoginPage
