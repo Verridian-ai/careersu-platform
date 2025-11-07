@@ -3,13 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "AI-Powered Career Success Platform - Transform your career journey with advanced document editing, job matching, and collaborative coaching tools",
+  "description": "AI-Powered Career Success Platform - Helping job seekers and career coaches streamline the job application process",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "test": "echo \"Run tests here\""
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -81,24 +80,24 @@
   },
   "keywords": [
     "career",
-    "resume",
     "job-search",
+    "resume",
     "ai",
-    "document-editor",
-    "career-coaching",
     "react",
     "typescript",
-    "tailwind",
-    "careersu"
+    "career-coaching",
+    "job-matching",
+    "document-editor"
   ],
-  "author": "CareerSU Team",
+  "author": "Verridian AI",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Verridian-ai/careersu-platform.git"
   },
-  "bugs": {
-    "url": "https://github.com/Verridian-ai/careersu-platform/issues"
-  },
-  "homepage": "https://github.com/Verridian-ai/careersu-platform#readme"
+  "homepage": "https://mgzsfkvhoa0s.space.minimax.io",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
 }
